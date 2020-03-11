@@ -1,8 +1,8 @@
-import React from "react";
-import { Flex, IconButton, Image } from "@chakra-ui/core";
+import React from 'react';
+import { Flex, IconButton, Image } from '@chakra-ui/core';
 
 const Footer = () => (
-  <div style={{ position: "fixed", bottom: 0 }}>
+  <div style={{ position: 'fixed', bottom: 0 }}>
     <Flex
       justifyContent="space-between"
       alignItems="stretch"

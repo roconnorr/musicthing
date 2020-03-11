@@ -1,9 +1,9 @@
-import React, { Component } from "react";
-import arrayMove from "array-move";
-import { SortableContainer } from "react-sortable-hoc";
-import { List } from "react-virtualized";
+import React, { Component } from 'react';
+import arrayMove from 'array-move';
+import { SortableContainer } from 'react-sortable-hoc';
+import { List } from 'react-virtualized';
 
-import Track from "./track/Track";
+import Track from './track/Track';
 
 class VirtualList extends Component<any, any> {
   renderRow = ({ index, key, style }: any) => {
@@ -40,15 +40,15 @@ class TrackTable extends Component {
 
   state = {
     items: [
-      { value: "0" },
-      { value: "1" },
-      { value: "2" },
-      { value: "3" },
-      { value: "4" },
-      { value: "5" },
-      { value: "6" },
-      { value: "7" },
-      { value: "8" }
+      { value: '0' },
+      { value: '1' },
+      { value: '2' },
+      { value: '3' },
+      { value: '4' },
+      { value: '5' },
+      { value: '6' },
+      { value: '7' },
+      { value: '8' }
     ]
   };
 

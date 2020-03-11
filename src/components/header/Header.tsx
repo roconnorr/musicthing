@@ -1,5 +1,5 @@
-import React from "react";
-import { Box, Heading, Flex, Text, Button } from "@chakra-ui/core";
+import React from 'react';
+import { Box, Heading, Flex, Text, Button } from '@chakra-ui/core';
 
 const MenuItems = ({ children }: any) => (
   <Text mt={{ base: 4, md: 0 }} mr={6} display="block">
@@ -23,12 +23,12 @@ const Header = (props: any) => {
       {...props}
     >
       <Flex align="center" mr={5}>
-        <Heading as="h1" size="lg" letterSpacing={"-.1rem"}>
+        <Heading as="h1" size="lg" letterSpacing={'-.1rem'}>
           Music Thing
         </Heading>
       </Flex>
 
-      <Box display={{ sm: "block", md: "none" }} onClick={handleToggle}>
+      <Box display={{ sm: 'block', md: 'none' }} onClick={handleToggle}>
         <svg
           fill="white"
           width="12px"
@@ -41,8 +41,8 @@ const Header = (props: any) => {
       </Box>
 
       <Box
-        display={{ sm: show ? "block" : "none", md: "flex" }}
-        width={{ sm: "full", md: "auto" }}
+        display={{ sm: show ? 'block' : 'none', md: 'flex' }}
+        width={{ sm: 'full', md: 'auto' }}
         alignItems="center"
         flexGrow={1}
       >
@@ -52,7 +52,7 @@ const Header = (props: any) => {
       </Box>
 
       <Box
-        display={{ sm: show ? "block" : "none", md: "block" }}
+        display={{ sm: show ? 'block' : 'none', md: 'block' }}
         mt={{ base: 4, md: 0 }}
       >
         <Button bg="transparent" border="1px">

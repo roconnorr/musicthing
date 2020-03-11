@@ -1,12 +1,12 @@
-import React from "react";
-import { SortableElement } from "react-sortable-hoc";
-import { ListItem } from "@chakra-ui/core";
+import React from 'react';
+import { SortableElement } from 'react-sortable-hoc';
+import { ListItem } from '@chakra-ui/core';
 
 const Track = SortableElement(({ value, style }: any) => {
   return (
     <ListItem
       height={50}
-      style={{ ...style, padding: "4px" }}
+      style={{ ...style, padding: '4px' }}
       backgroundColor="red.300"
       listStyleType="none"
     >

@@ -1,24 +1,24 @@
-import React from "react";
+import React from 'react';
 
-import "react-virtualized/styles.css";
-import "./App.css";
+import 'react-virtualized/styles.css';
+import './App.css';
 
 import {
   Heading,
   theme,
   ThemeProvider,
   CSSReset,
-  ColorModeProvider,
-} from "@chakra-ui/core";
+  ColorModeProvider
+} from '@chakra-ui/core';
 
-import Random from "./Random";
-import Header from "./components/header/Header";
-import Footer from "./components/footer/Footer";
-import TrackTable from "./components/tracktable/TrackTable";
+import Random from './Random';
+import Header from './components/header/Header';
+import Footer from './components/footer/Footer';
+import TrackTable from './components/tracktable/TrackTable';
 
-import MusicKitProvider from "./providers/MusicKitProvider";
+import MusicKitProvider from './providers/MusicKitProvider';
 
-const breakpoints = ["360px", "768px", "1024px", "1440px"];
+const breakpoints = ['360px', '768px', '1024px', '1440px'];
 const bp = {
   sm: breakpoints[0],
   md: breakpoints[1],

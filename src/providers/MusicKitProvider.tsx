@@ -1,6 +1,6 @@
 /**From https://github.com/Musish/Musish */
-import React, { ReactNode } from "react";
-import { Spinner } from "@chakra-ui/core";
+import React, { ReactNode } from 'react';
+import { Spinner } from '@chakra-ui/core';
 
 interface MusicKitProviderProps {
   children: ReactNode;
