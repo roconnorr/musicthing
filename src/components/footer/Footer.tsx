@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 import { Flex, IconButton, Image } from '@chakra-ui/core';
 
-const Footer = () => (
+const Footer = (): ReactElement => (
   <div style={{ position: 'fixed', bottom: 0 }}>
     <Flex
       justifyContent="space-between"

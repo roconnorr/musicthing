@@ -1,4 +1,4 @@
-import React, { Component, ReactElement, Ref, RefObject } from 'react';
+import React, { Component, ReactElement, RefObject } from 'react';
 import arrayMove from 'array-move';
 import { SortableContainer, SortEnd } from 'react-sortable-hoc';
 import { List, ListRowProps } from 'react-virtualized';
@@ -61,10 +61,6 @@ class TrackTable extends Component<{}, TrackTableState> {
       ]
     };
   }
-
-  // registerListRef = (listInstance: List): void => {
-  //   this.List = listInstance;
-  // };
 
   onSortEnd = ({ oldIndex, newIndex }: SortEnd): void => {
     if (oldIndex === newIndex) {

@@ -1,15 +1,19 @@
-import React from 'react';
+import React, { ReactElement, ReactNode } from 'react';
 import { Box, Heading, Flex, Text, Button } from '@chakra-ui/core';
 
-const MenuItems = ({ children }: any) => (
+type MenuItemsProps = {
+  children: ReactNode;
+};
+
+const MenuItems = ({ children }: MenuItemsProps): ReactElement => (
   <Text mt={{ base: 4, md: 0 }} mr={6} display="block">
     {children}
   </Text>
 );
 
-const Header = (props: any) => {
+const Header = (): ReactElement => {
   const [show, setShow] = React.useState(false);
-  const handleToggle = () => setShow(!show);
+  const handleToggle = (): void => setShow(!show);
 
   return (
     <Flex
@@ -20,7 +24,6 @@ const Header = (props: any) => {
       padding="1.5rem"
       bg="teal.500"
       color="white"
-      {...props}
     >
       <Flex align="center" mr={5}>
         <Heading as="h1" size="lg" letterSpacing={'-.1rem'}>
