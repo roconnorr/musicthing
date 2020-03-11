@@ -1,5 +1,9 @@
 {
   "compilerOptions": {
+    "typeRoots": [
+      "node_modules/musickit-typescript",
+      "node_modules/@types"
+    ],
     "target": "es5",
     "lib": [
       "dom",
