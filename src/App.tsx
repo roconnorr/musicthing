@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 
 import 'react-virtualized/styles.css';
 import './App.css';
@@ -11,12 +11,11 @@ import {
   ColorModeProvider
 } from '@chakra-ui/core';
 
-import Random from './Random';
 import Header from './components/header/Header';
 import Footer from './components/footer/Footer';
 import TrackTable from './components/tracktable/TrackTable';
 
-import MusicKitProvider from './providers/MusicKitProvider';
+// import MusicKitProvider from './providers/MusicKitProvider';
 
 const breakpoints = ['360px', '768px', '1024px', '1440px'];
 const bp = {
@@ -31,16 +30,15 @@ const newTheme = {
   bp
 };
 
-function App() {
+function App(): ReactElement {
   return (
     <ThemeProvider theme={newTheme}>
       <ColorModeProvider>
         <CSSReset />
-        <Header />
         {/* <MusicKitProvider> */}
+        <Header />
         <Heading>Welcome to musicthing</Heading>
         <TrackTable />
-        {/* <Random /> */}
         <Footer />
         {/* </MusicKitProvider> */}
       </ColorModeProvider>

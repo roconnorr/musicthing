@@ -1,31 +1,36 @@
-import React, { Component } from 'react';
+import React, { Component, ReactElement } from 'react';
 import arrayMove from 'array-move';
 import { SortableContainer } from 'react-sortable-hoc';
 import { List } from 'react-virtualized';
 
-import Track from './track/Track';
+import TrackTableItem, { Track } from './track/Track';
 
-class VirtualList extends Component<any, any> {
+type VirtualListProps = {
+  tracks: Track[];
+  getRef: any;
+};
+
+class VirtualList extends Component<VirtualListProps, {}> {
   renderRow = ({ index, key, style }: any) => {
-    const { items } = this.props;
-    const { value } = items[index];
+    const { tracks } = this.props;
+    const track = tracks[index];
 
     return (
       <div key={key} style={style}>
-        <Track value={value} index={index} />
+        <TrackTableItem track={track} index={index} />
       </div>
     );
   };
 
-  render() {
-    const { items, getRef } = this.props;
+  render(): ReactElement {
+    const { tracks, getRef } = this.props;
 
     return (
       <List
         ref={getRef}
         rowHeight={58}
         rowRenderer={this.renderRow}
-        rowCount={items.length}
+        rowCount={tracks.length}
         width={400}
         height={300}
       />
@@ -35,20 +40,21 @@ class VirtualList extends Component<any, any> {
 
 const SortableVirtualList = SortableContainer(VirtualList);
 
-class TrackTable extends Component {
+type TrackTableState = {
+  items: Track[];
+};
+
+class TrackTable extends Component<{}, TrackTableState> {
   List: any;
 
   state = {
     items: [
-      { value: '0' },
-      { value: '1' },
-      { value: '2' },
-      { value: '3' },
-      { value: '4' },
-      { value: '5' },
-      { value: '6' },
-      { value: '7' },
-      { value: '8' }
+      new Track('thingy1'),
+      new Track('thingy2'),
+      new Track('thingy3'),
+      new Track('thingy4'),
+      new Track('thingy5'),
+      new Track('thingy6')
     ]
   };
 
@@ -71,13 +77,13 @@ class TrackTable extends Component {
     this.List.recomputeRowHeights();
   };
 
-  render() {
+  render(): ReactElement {
     const { items } = this.state;
 
     return (
       <SortableVirtualList
         getRef={this.registerListRef}
-        items={items}
+        tracks={items}
         onSortEnd={this.onSortEnd}
       />
     );

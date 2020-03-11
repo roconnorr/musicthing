@@ -2,17 +2,29 @@ import React from 'react';
 import { SortableElement } from 'react-sortable-hoc';
 import { ListItem } from '@chakra-ui/core';
 
-const Track = SortableElement(({ value, style }: any) => {
+export class Track {
+  name: string;
+
+  constructor(name: string) {
+    this.name = name;
+  }
+}
+
+type TrackItemProps = {
+  track: Track;
+};
+
+const TrackTableItem = SortableElement(({ track }: TrackItemProps) => {
   return (
     <ListItem
       height={50}
-      style={{ ...style, padding: '4px' }}
+      style={{ padding: '4px' }}
       backgroundColor="red.300"
       listStyleType="none"
     >
-      {value}
+      {track.name}
     </ListItem>
   );
 });
 
-export default Track;
+export default TrackTableItem;

@@ -1,9 +1,9 @@
 /**From https://github.com/Musish/Musish */
-import React, { ReactNode } from 'react';
+import React, { ReactElement } from 'react';
 import { Spinner } from '@chakra-ui/core';
 
 interface MusicKitProviderProps {
-  children: ReactNode;
+  children: ReactElement;
 }
 
 interface MusicKitProviderState {
@@ -22,7 +22,7 @@ export default class MusicKitProvider extends React.Component<
     };
   }
 
-  public componentDidMount() {
+  public componentDidMount(): void {
     // MusicKit.configure({
     //   developerToken: process.env.APPLE_TOKEN,
     //   app: {
@@ -40,7 +40,7 @@ export default class MusicKitProvider extends React.Component<
     });
   }
 
-  render() {
+  render(): ReactElement {
     if (!this.state.ready) {
       return <Spinner />;
     }
