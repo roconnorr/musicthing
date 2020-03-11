@@ -1,17 +1,17 @@
-import React, { Component, ReactElement } from 'react';
+import React, { Component, ReactElement, Ref, RefObject } from 'react';
 import arrayMove from 'array-move';
-import { SortableContainer } from 'react-sortable-hoc';
-import { List } from 'react-virtualized';
+import { SortableContainer, SortEnd } from 'react-sortable-hoc';
+import { List, ListRowProps } from 'react-virtualized';
 
 import TrackTableItem, { Track } from './track/Track';
 
 type VirtualListProps = {
   tracks: Track[];
-  getRef: any;
+  listRef: RefObject<List>;
 };
 
 class VirtualList extends Component<VirtualListProps, {}> {
-  renderRow = ({ index, key, style }: any) => {
+  renderRow = ({ index, key, style }: ListRowProps): ReactElement => {
     const { tracks } = this.props;
     const track = tracks[index];
 
@@ -23,11 +23,11 @@ class VirtualList extends Component<VirtualListProps, {}> {
   };
 
   render(): ReactElement {
-    const { tracks, getRef } = this.props;
+    const { tracks, listRef } = this.props;
 
     return (
       <List
-        ref={getRef}
+        ref={listRef}
         rowHeight={58}
         rowRenderer={this.renderRow}
         rowCount={tracks.length}
@@ -45,24 +45,28 @@ type TrackTableState = {
 };
 
 class TrackTable extends Component<{}, TrackTableState> {
-  List: any;
+  listRef: RefObject<List>;
 
-  state = {
-    items: [
-      new Track('thingy1'),
-      new Track('thingy2'),
-      new Track('thingy3'),
-      new Track('thingy4'),
-      new Track('thingy5'),
-      new Track('thingy6')
-    ]
-  };
+  constructor(props: {}) {
+    super(props);
+    this.listRef = React.createRef();
+    this.state = {
+      items: [
+        new Track('thingy1'),
+        new Track('thingy2'),
+        new Track('thingy3'),
+        new Track('thingy4'),
+        new Track('thingy5'),
+        new Track('thingy6')
+      ]
+    };
+  }
 
-  registerListRef = (listInstance: any) => {
-    this.List = listInstance;
-  };
+  // registerListRef = (listInstance: List): void => {
+  //   this.List = listInstance;
+  // };
 
-  onSortEnd = ({ oldIndex, newIndex }: any) => {
+  onSortEnd = ({ oldIndex, newIndex }: SortEnd): void => {
     if (oldIndex === newIndex) {
       return;
     }
@@ -74,7 +78,7 @@ class TrackTable extends Component<{}, TrackTableState> {
     });
 
     // Update the list via the ref
-    this.List.recomputeRowHeights();
+    this.listRef.current?.recomputeRowHeights();
   };
 
   render(): ReactElement {
@@ -82,7 +86,7 @@ class TrackTable extends Component<{}, TrackTableState> {
 
     return (
       <SortableVirtualList
-        getRef={this.registerListRef}
+        listRef={this.listRef}
         tracks={items}
         onSortEnd={this.onSortEnd}
       />
