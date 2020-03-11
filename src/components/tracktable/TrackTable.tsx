@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import { SortableContainer } from "react-sortable-hoc";
 import arrayMove from "array-move";
+import { SortableContainer } from "react-sortable-hoc";
 import { List } from "react-virtualized";
 
 import Track from "./track/Track";
@@ -16,11 +16,6 @@ class VirtualList extends Component<any, any> {
       </div>
     );
   };
-
-  //   getRowHeight = ({ index }: any) => {
-  //     const { items } = this.props;
-  //     return items[index].height;
-  //   };
 
   render() {
     const { items, getRef } = this.props;
@@ -72,12 +67,8 @@ class TrackTable extends Component {
       items: arrayMove(items, oldIndex, newIndex)
     });
 
-    // We need to inform React Virtualized that the items have changed heights
-    // This can either be done by imperatively calling the recomputeRowHeights and
-    // forceUpdate instance methods on the `List` ref, or by passing an additional prop
-    // to List that changes whenever the order changes to force it to re-render
+    // Update the list via the ref
     this.List.recomputeRowHeights();
-    // this.List.forceUpdate();
   };
 
   render() {
@@ -92,100 +83,5 @@ class TrackTable extends Component {
     );
   }
 }
-
-// import React, {Component} from 'react';
-// import {render} from 'react-dom';
-// import {SortableContainer, SortableElement} from 'react-sortable-hoc';
-// import arrayMove from 'array-move';
-// import Infinite from 'react-infinite';
-
-// const SortableItem = SortableElement(({height, value}: any) => {
-//   return <li style={{height}}>{value}</li>;
-// });
-
-// const SortableInfiniteList = SortableContainer(({items}: any) => {
-//   return (
-//     <Infinite
-//       containerHeight={400}
-//       elementHeight={50}
-//     >
-//       {items.map(({value, height}: any, index: any) => (
-//         <Track
-//           key={`item-${value}`}
-//           index={index}
-//           value={value}
-//           height={height}
-//         />
-//       ))}
-//     </Infinite>
-//   );
-// });
-
-// class TrackTable extends Component {
-//   state = {
-//     items: [
-//       {value: 'Item 1', height: 89},
-//       {value: 'Item 2', height: 59},
-//       {value: 'Item 3', height: 130},
-//       {value: 'Item 4', height: 59},
-//       {value: 'Item 5', height: 200},
-//       {value: 'Item 6', height: 150},
-//       {value: 'Item 1', height: 89},
-//       {value: 'Item 2', height: 59},
-//       {value: 'Item 3', height: 130},
-//       {value: 'Item 4', height: 59},
-//       {value: 'Item 5', height: 200},
-//       {value: 'Item 6', height: 150},
-//       {value: 'Item 1', height: 89},
-//       {value: 'Item 2', height: 59},
-//       {value: 'Item 3', height: 130},
-//       {value: 'Item 4', height: 59},
-//       {value: 'Item 5', height: 200},
-//       {value: 'Item 6', height: 150},
-//       {value: 'Item 1', height: 89},
-//       {value: 'Item 2', height: 59},
-//       {value: 'Item 3', height: 130},
-//       {value: 'Item 4', height: 59},
-//       {value: 'Item 5', height: 200},
-//       {value: 'Item 6', height: 150},
-//       {value: 'Item 1', height: 89},
-//       {value: 'Item 2', height: 59},
-//       {value: 'Item 3', height: 130},
-//       {value: 'Item 4', height: 59},
-//       {value: 'Item 5', height: 200},
-//       {value: 'Item 6', height: 150},
-//       {value: 'Item 1', height: 89},
-//       {value: 'Item 2', height: 59},
-//       {value: 'Item 3', height: 130},
-//       {value: 'Item 4', height: 59},
-//       {value: 'Item 5', height: 200},
-//       {value: 'Item 6', height: 150},
-//       {value: 'Item 1', height: 89},
-//       {value: 'Item 2', height: 59},
-//       {value: 'Item 3', height: 130},
-//       {value: 'Item 4', height: 59},
-//       {value: 'Item 5', height: 200},
-//       {value: 'Item 6', height: 150},
-//       {value: 'Item 1', height: 89},
-//       {value: 'Item 2', height: 59},
-//       {value: 'Item 3', height: 130},
-//       {value: 'Item 4', height: 59},
-//       {value: 'Item 5', height: 200},
-//       {value: 'Item 6', height: 150},
-//     ],
-//   };
-
-//   onSortEnd = ({oldIndex, newIndex}: any) => {
-//     this.setState(({items}: any) => ({
-//       items: arrayMove(items, oldIndex, newIndex),
-//     }));
-//   };
-
-//   render() {
-//     const {items} = this.state;
-
-//     return <SortableInfiniteList items={items} onSortEnd={this.onSortEnd} />;
-//   }
-// }
 
 export default TrackTable;
