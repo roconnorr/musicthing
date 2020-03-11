@@ -1,18 +1,22 @@
 import React from "react";
+
+import "react-virtualized/styles.css";
+import "./App.css";
+
 import {
   Heading,
   theme,
   ThemeProvider,
   CSSReset,
   ColorModeProvider,
-  Box
 } from "@chakra-ui/core";
 
-import MusicKitProvider from "./providers/MusicKitProvider";
-
-import "./App.css";
 import Random from "./Random";
-import Header from "./Header";
+import Header from "./components/header/Header";
+import Footer from "./components/footer/Footer";
+import TrackTable from "./components/tracktable/TrackTable";
+
+import MusicKitProvider from "./providers/MusicKitProvider";
 
 const breakpoints = ["360px", "768px", "1024px", "1440px"];
 const bp = {
@@ -35,7 +39,9 @@ function App() {
         <Header />
         {/* <MusicKitProvider> */}
         <Heading>Welcome to musicthing</Heading>
-        <Random />
+        <TrackTable />
+        {/* <Random /> */}
+        <Footer />
         {/* </MusicKitProvider> */}
       </ColorModeProvider>
     </ThemeProvider>
