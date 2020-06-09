@@ -1,4 +1,4 @@
-import React, { ReactElement } from 'react';
+import React, { useState, useEffect, ReactElement } from 'react';
 
 import 'react-virtualized/styles.css';
 import './App.css';
@@ -30,17 +30,52 @@ const newTheme = {
   bp
 };
 
+// import React, { useState, useEffect } from "react";
+
+// const useAudio = (url: string): [boolean, () => void] => {
+//   const [audio] = useState(new Audio(url));
+//   const [playing, setPlaying] = useState<boolean>(false);
+
+//   const toggle = (): void => {
+//     setPlaying(!playing);
+//   };
+
+//   useEffect(() => {
+//     playing ? audio.play() : audio.pause();
+//   }, [playing]);
+
+//   useEffect(() => {
+//     audio.addEventListener('ended', () => setPlaying(false));
+//     return () => {
+//       audio.removeEventListener('ended', () => setPlaying(false));
+//     };
+//   }, []);
+
+//   return [playing, toggle];
+// };
+
+// const Player = ({ url }: { url: string }) => {
+//   const [playing, toggle] = useAudio(url);
+
+//   return (
+//     <div>
+//       <button onClick={toggle}>{playing ? 'Pause' : 'Play'}</button>
+//     </div>
+//   );
+// };
+
+// export default Player;
+
 function App(): ReactElement {
   return (
     <ThemeProvider theme={newTheme}>
       <ColorModeProvider>
         <CSSReset />
-        {/* <MusicKitProvider> */}
         <Header />
         <Heading>Welcome to musicthing</Heading>
         <TrackTable />
+        {/* <Player url={'localhost:3005/track/1.mp3'} /> */}
         <Footer />
-        {/* </MusicKitProvider> */}
       </ColorModeProvider>
     </ThemeProvider>
   );
