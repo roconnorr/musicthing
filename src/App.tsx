@@ -72,7 +72,6 @@ function App(): ReactElement {
         <Header />
         <Heading>Welcome to musicthing</Heading>
         <TrackTable />
-        {/* <Player url={'localhost:3005/track/1.mp3'} /> */}
         <Footer />
       </ColorModeProvider>
     </ThemeProvider>

@@ -14,7 +14,7 @@ type VirtualListProps = {
 };
 
 class VirtualList extends Component<VirtualListProps, {}> {
-  handleClickRow = (id: number) => {
+  handleClickRow = (id: number): void => {
     this.props.onClickRow(id);
   };
 
@@ -27,7 +27,7 @@ class VirtualList extends Component<VirtualListProps, {}> {
         <TrackTableItem
           track={track}
           index={index}
-          onClick={(id: number) => this.handleClickRow(id)}
+          onClick={(id: number): void => this.handleClickRow(id)}
         />
       </div>
     );
@@ -107,7 +107,7 @@ class TrackTable extends Component<{}, TrackTableState> {
           listRef={this.listRef}
           tracks={items}
           onSortEnd={this.onSortEnd}
-          onClickRow={id => {
+          onClickRow={(id: number): void => {
             this.setState({
               playingTrackId: id
             });
