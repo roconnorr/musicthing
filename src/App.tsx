@@ -1,5 +1,7 @@
 import React, { useState, useEffect, ReactElement } from 'react';
 
+import Player from './components/player/Player';
+
 import 'react-virtualized/styles.css';
 import './App.css';
 

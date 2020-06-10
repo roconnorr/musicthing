@@ -1,24 +1,12 @@
 import React, { ReactElement, useState, useRef } from 'react';
 import { Flex, IconButton, Image } from '@chakra-ui/core';
 
+import Player from '../player/Player';
+
 const Footer = (): ReactElement => {
   return (
-    <div style={{ position: 'fixed', bottom: 0 }}>
-      <Flex
-        justifyContent="space-between"
-        alignItems="stretch"
-        flexDirection="row"
-      >
-        <Flex justifyContent="flex-start">
-          <Image height="100px" width="100px" />
-        </Flex>
-        <Flex>
-          <IconButton aria-label="icon" icon="triangle-down" ml={1} mr={1} />
-          <IconButton aria-label="icon" icon="copy" />
-          <IconButton aria-label="icon" icon="triangle-up" ml={1} mr={1} />
-        </Flex>
-        <Flex></Flex>
-      </Flex>
+    <div style={{ position: 'fixed', bottom: 0, width: '100%' }}>
+      <Player />
     </div>
   );
 };
