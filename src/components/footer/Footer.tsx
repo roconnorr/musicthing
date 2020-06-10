@@ -1,5 +1,4 @@
-import React, { ReactElement, useState, useRef } from 'react';
-import { Flex, IconButton, Image } from '@chakra-ui/core';
+import React, { ReactElement } from 'react';
 
 import Player from '../player/Player';
 

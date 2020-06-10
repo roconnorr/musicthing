@@ -2,8 +2,6 @@ import React, { Component, ReactElement, RefObject } from 'react';
 import arrayMove from 'array-move';
 import { SortableContainer, SortEnd } from 'react-sortable-hoc';
 import { List, ListRowProps } from 'react-virtualized';
-// @ts-ignore
-import Player from 'react-howler-player';
 
 import TrackTableItem, { Track } from './track/Track';
 
@@ -97,27 +95,19 @@ class TrackTable extends Component<{}, TrackTableState> {
   };
 
   render(): ReactElement {
-    const { items, playingTrackId } = this.state;
-
-    console.log(playingTrackId);
+    const { items } = this.state;
 
     return (
-      <>
-        <SortableVirtualList
-          listRef={this.listRef}
-          tracks={items}
-          onSortEnd={this.onSortEnd}
-          onClickRow={(id: number): void => {
-            this.setState({
-              playingTrackId: id
-            });
-          }}
-        />
-        <Player
-          src={[`http://localhost:3005/tracks/${playingTrackId}`]}
-          isDark={true}
-        />
-      </>
+      <SortableVirtualList
+        listRef={this.listRef}
+        tracks={items}
+        onSortEnd={this.onSortEnd}
+        onClickRow={(id: number): void => {
+          this.setState({
+            playingTrackId: id
+          });
+        }}
+      />
     );
   }
 }
