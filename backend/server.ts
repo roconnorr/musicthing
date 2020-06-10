@@ -75,6 +75,9 @@ trackRoute.get('/:trackID', (req, res) => {
     res.status(404).send('Track not found!');
   }
 
+  console.log(req);
+  console.log(song);
+
   const fileStream = fs.createReadStream(song.path);
 
   fileStream.on('error', err => {
