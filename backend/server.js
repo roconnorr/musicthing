@@ -19,6 +19,10 @@ trackRoute.get('/:trackID', (req, res) => {
 
   const fileStream = fs.createReadStream("./kaytestnada.mp3");
 
+  fileStream.on('error', err => {
+    res.status(500).send(err);
+  });
+
   fileStream.pipe(res);
 });
 
