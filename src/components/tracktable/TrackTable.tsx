@@ -10,9 +10,14 @@ import TrackTableItem, { Track } from './track/Track';
 type VirtualListProps = {
   tracks: Track[];
   listRef: RefObject<List>;
+  onClickRow: (id: number) => void;
 };
 
 class VirtualList extends Component<VirtualListProps, {}> {
+  handleClickRow = (id: number) => {
+    this.props.onClickRow(id);
+  };
+
   renderRow = ({ index, key, style }: ListRowProps): ReactElement => {
     const { tracks } = this.props;
     const track = tracks[index];
@@ -22,7 +27,7 @@ class VirtualList extends Component<VirtualListProps, {}> {
         <TrackTableItem
           track={track}
           index={index}
-          onClick={(id: number) => console.log('click' + id)}
+          onClick={(id: number) => this.handleClickRow(id)}
         />
       </div>
     );
@@ -48,7 +53,7 @@ const SortableVirtualList = SortableContainer(VirtualList);
 
 type TrackTableState = {
   items: Track[];
-  playingTrack: Track | undefined;
+  playingTrackId: number;
 };
 
 class TrackTable extends Component<{}, TrackTableState> {
@@ -60,7 +65,7 @@ class TrackTable extends Component<{}, TrackTableState> {
 
     this.state = {
       items: [],
-      playingTrack: undefined
+      playingTrackId: 0
     };
   }
 
@@ -92,7 +97,9 @@ class TrackTable extends Component<{}, TrackTableState> {
   };
 
   render(): ReactElement {
-    const { items } = this.state;
+    const { items, playingTrackId } = this.state;
+
+    console.log(playingTrackId);
 
     return (
       <>
@@ -100,8 +107,16 @@ class TrackTable extends Component<{}, TrackTableState> {
           listRef={this.listRef}
           tracks={items}
           onSortEnd={this.onSortEnd}
+          onClickRow={id => {
+            this.setState({
+              playingTrackId: id
+            });
+          }}
         />
-        <Player src={[items]} isDark={true} />
+        <Player
+          src={[`http://localhost:3005/track/${playingTrackId}`]}
+          isDark={true}
+        />
       </>
     );
   }
