@@ -3,6 +3,7 @@ const fs = require('fs');
 
 const express = require('express');
 const trackRoute = express.Router();
+const cors = require('cors');
 
 const db = require('better-sqlite3')('dev.db', { verbose: console.log });
 const mm = require('music-metadata');
@@ -52,6 +53,7 @@ filePaths.forEach(path => {
  * Create Express server and routes
  */
 const app = express();
+app.use(cors());
 app.use('/track', trackRoute);
 
 const getSong = db.prepare(`SELECT * FROM tracks where id = ?`);
@@ -82,6 +84,17 @@ trackRoute.get('/:trackID', (req, res) => {
   });
 
   fileStream.pipe(res);
+});
+
+const getAllSongs = db.prepare(`SELECT * FROM tracks`);
+
+//getallsongs
+trackRoute.get('/', (req, res) => {
+  console.log('req');
+  const songs = getAllSongs.all();
+  console.log('req');
+
+  res.json(songs);
 });
 
 //streamtest
