@@ -41,11 +41,11 @@ const Footer = (): ReactElement => {
           playing={playing}
           ref={zzrpRef}
         /> */}
-        <Player
+        {/* <Player
           src={['http://localhost:3005/track/1.mp3']}
           isDark={true}
           // onTimeUpdate={timeUpdate}
-        />
+        /> */}
       </Flex>
     </div>
   );

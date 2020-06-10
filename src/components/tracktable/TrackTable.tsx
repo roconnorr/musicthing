@@ -2,6 +2,8 @@ import React, { Component, ReactElement, RefObject } from 'react';
 import arrayMove from 'array-move';
 import { SortableContainer, SortEnd } from 'react-sortable-hoc';
 import { List, ListRowProps } from 'react-virtualized';
+// @ts-ignore
+import Player from 'react-howler-player';
 
 import TrackTableItem, { Track } from './track/Track';
 
@@ -17,7 +19,11 @@ class VirtualList extends Component<VirtualListProps, {}> {
 
     return (
       <div key={key} style={style}>
-        <TrackTableItem track={track} index={index} />
+        <TrackTableItem
+          track={track}
+          index={index}
+          onClick={(id: number) => console.log('click' + id)}
+        />
       </div>
     );
   };
@@ -42,6 +48,7 @@ const SortableVirtualList = SortableContainer(VirtualList);
 
 type TrackTableState = {
   items: Track[];
+  playingTrack: Track | undefined;
 };
 
 class TrackTable extends Component<{}, TrackTableState> {
@@ -50,16 +57,23 @@ class TrackTable extends Component<{}, TrackTableState> {
   constructor(props: {}) {
     super(props);
     this.listRef = React.createRef();
+
     this.state = {
-      items: [
-        new Track('thingy1'),
-        new Track('thingy2'),
-        new Track('thingy3'),
-        new Track('thingy4'),
-        new Track('thingy5'),
-        new Track('thingy6')
-      ]
+      items: [],
+      playingTrack: undefined
     };
+  }
+
+  async componentDidMount(): Promise<void> {
+    const response = await fetch('http://localhost:3005/track');
+    console.log(response);
+    const data = await response.json();
+    console.log(data);
+    const tracks = data.map(
+      (track: any) => new Track(track.id, track.title, track.artist, track.year)
+    );
+    console.log(tracks);
+    this.setState({ items: tracks });
   }
 
   onSortEnd = ({ oldIndex, newIndex }: SortEnd): void => {
@@ -81,11 +95,14 @@ class TrackTable extends Component<{}, TrackTableState> {
     const { items } = this.state;
 
     return (
-      <SortableVirtualList
-        listRef={this.listRef}
-        tracks={items}
-        onSortEnd={this.onSortEnd}
-      />
+      <>
+        <SortableVirtualList
+          listRef={this.listRef}
+          tracks={items}
+          onSortEnd={this.onSortEnd}
+        />
+        <Player src={[items]} isDark={true} />
+      </>
     );
   }
 }
