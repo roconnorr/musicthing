@@ -14,3 +14,14 @@ services:
     environment:
       - NODE_ENV=development
       - CHOKIDAR_USEPOLLING=true
+  backend:
+    container_name: musicthing-backend
+    build:
+      context: ./backend/.
+      dockerfile: Dockerfile
+    volumes:
+      - "./backend/:/app"
+      - "/app/node_modules"
+    ports:
+      - "3005:3005"
+    
