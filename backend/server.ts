@@ -1,14 +1,15 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
-const fs = require('fs');
+import fs from 'fs';
 
-const express = require('express');
-const trackRoute = express.Router();
-const cors = require('cors');
+import express from 'express';
+import cors from 'cors';
 
-const db = require('better-sqlite3')('dev.db', { verbose: console.log });
-const mm = require('music-metadata');
+import database from 'better-sqlite3';
+import * as musicmetadata from 'music-metadata';
 
-// create db schema
+// init database
+const db = database('dev.db', { verbose: console.log });
+
+// create schema
 const createTrackTable = db.prepare(
   `
   CREATE TABLE IF NOT EXISTS tracks (
@@ -20,9 +21,11 @@ const createTrackTable = db.prepare(
   );
   `
 );
-
 createTrackTable.run();
 
+// db queries
+const getSong = db.prepare(`SELECT * FROM tracks where id = ?`);
+const getAllSongs = db.prepare(`SELECT * FROM tracks`);
 const insertTrack = db.prepare(
   `INSERT INTO tracks (title, artist, year, path) VALUES (@title, @artist, @year, @path)`
 );
@@ -35,12 +38,13 @@ const filePaths = fs.readdirSync('./music');
 
 filePaths.forEach(path => {
   const fullPath = `./music/${path}`;
-  mm.parseFile(fullPath)
+  musicmetadata
+    .parseFile(fullPath)
     .then(metadata => {
       // console.log(util.inspect(metadata, { showHidden: false, depth: null }));
       const { title, artist, year } = metadata.common;
 
-      console.log(title, artist, year);
+      // console.log(title, artist, year);
 
       insertTrack.run({ title, artist, year, path: fullPath });
     })
@@ -49,22 +53,20 @@ filePaths.forEach(path => {
     });
 });
 
-/**
- * Create Express server and routes
- */
+// Create Express server and routes
 const app = express();
-app.use(cors());
-app.use('/track', trackRoute);
+const trackRoute = express.Router();
 
-const getSong = db.prepare(`SELECT * FROM tracks where id = ?`);
+// middleware
+app.use(cors());
+
+// routes
+app.use('/tracks', trackRoute);
 
 /**
  * GET /tracks/:trackID
  */
 trackRoute.get('/:trackID', (req, res) => {
-  res.set('content-type', 'audio/mp3');
-  res.set('accept-ranges', 'bytes');
-
   const { trackID } = req.params;
 
   const song = getSong.get(trackID);
@@ -79,32 +81,18 @@ trackRoute.get('/:trackID', (req, res) => {
     res.status(500).send(err);
   });
 
-  fileStream.pipe(res);
-});
-
-const getAllSongs = db.prepare(`SELECT * FROM tracks`);
-
-//getallsongs
-trackRoute.get('/', (req, res) => {
-  console.log('req');
-  const songs = getAllSongs.all();
-  console.log('req');
-
-  res.json(songs);
-});
-
-//streamtest
-trackRoute.get('/test', (req, res) => {
   res.set('content-type', 'audio/mp3');
   res.set('accept-ranges', 'bytes');
-
-  const fileStream = fs.createReadStream('./kaytestnada.mp3');
-
-  fileStream.on('error', err => {
-    res.status(500).send(err);
-  });
-
   fileStream.pipe(res);
+});
+
+/**
+ * GET /tracks
+ */
+trackRoute.get('/', (req, res) => {
+  const songs = getAllSongs.all();
+
+  res.json(songs);
 });
 
 app.listen(3005, () => {

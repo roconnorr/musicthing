@@ -70,7 +70,7 @@ class TrackTable extends Component<{}, TrackTableState> {
   }
 
   async componentDidMount(): Promise<void> {
-    const response = await fetch('http://localhost:3005/track');
+    const response = await fetch('http://localhost:3005/tracks');
     console.log(response);
     const data = await response.json();
     console.log(data);
@@ -114,7 +114,7 @@ class TrackTable extends Component<{}, TrackTableState> {
           }}
         />
         <Player
-          src={[`http://localhost:3005/track/${playingTrackId}`]}
+          src={[`http://localhost:3005/tracks/${playingTrackId}`]}
           isDark={true}
         />
       </>
