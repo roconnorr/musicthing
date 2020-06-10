@@ -15,8 +15,6 @@ import Header from './components/header/Header';
 import Footer from './components/footer/Footer';
 import TrackTable from './components/tracktable/TrackTable';
 
-// import MusicKitProvider from './providers/MusicKitProvider';
-
 const breakpoints = ['360px', '768px', '1024px', '1440px'];
 const bp = {
   sm: breakpoints[0],
