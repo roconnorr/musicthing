@@ -67,15 +67,11 @@ trackRoute.get('/:trackID', (req, res) => {
 
   const { trackID } = req.params;
 
-  console.log(req);
-
-  if (!trackID) {
-    res.status(404).send('Track not found!');
-  }
-
   const song = getSong.get(trackID);
 
-  console.log(song);
+  if (!trackID || !song) {
+    res.status(404).send('Track not found!');
+  }
 
   const fileStream = fs.createReadStream(song.path);
 
