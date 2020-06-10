@@ -7,7 +7,9 @@ import database from 'better-sqlite3';
 import * as musicmetadata from 'music-metadata';
 
 // init database
-const db = database('dev.db', { verbose: console.log });
+const db = database('dev.db', {
+  verbose: (msg: string) => console.log(`${msg}\n`)
+});
 
 // create schema
 const createTrackTable = db.prepare(
@@ -34,10 +36,10 @@ const insertTrack = db.prepare(
 // TODO - store last updated time for file in db, check if it has changed and only update if it has
 
 // get all file paths in music dir for parsing
-const filePaths = fs.readdirSync('./music');
+const filePaths = fs.readdirSync(__dirname + '/music');
 
 filePaths.forEach(path => {
-  const fullPath = `./music/${path}`;
+  const fullPath = `${__dirname}/music/${path}`;
   musicmetadata
     .parseFile(fullPath)
     .then(metadata => {

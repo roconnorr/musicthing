@@ -1,12 +1,12 @@
 {
-	"folders": [
-		{
-			"path": "../"
-		}
-	],
-	"settings": {
-		"files.associations": {
-			"Dockerfile*": "dockerfile",
-		}
-	}
+  "folders": [
+    {
+      "path": "./"
+    }
+  ],
+  "settings": {
+    "files.associations": {
+      "Dockerfile*": "dockerfile"
+    }
+  }
 }
