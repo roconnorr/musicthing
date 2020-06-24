@@ -19,7 +19,8 @@ const createTrackTable = db.prepare(
     title TEXT NOT NULL,
     artist TEXT NOT NULL,
     year TEXT NOT NULL,
-    path TEXT NOT NULL
+    path TEXT NOT NULL,
+    lastUpdated TEXT NOT NULL
   );
   `
 );
@@ -27,9 +28,10 @@ createTrackTable.run();
 
 // db queries
 const getSong = db.prepare(`SELECT * FROM tracks where id = ?`);
+const getSongByPath = db.prepare(`SELECT * FROM tracks where path = ?`);
 const getAllSongs = db.prepare(`SELECT * FROM tracks`);
 const insertTrack = db.prepare(
-  `INSERT INTO tracks (title, artist, year, path) VALUES (@title, @artist, @year, @path)`
+  `INSERT INTO tracks (title, artist, year, path, lastUpdated) VALUES (@title, @artist, @year, @path, @lastUpdated)`
 );
 
 // startup hax - read music dir and insert into the db
@@ -46,9 +48,20 @@ filePaths.forEach(path => {
       // console.log(util.inspect(metadata, { showHidden: false, depth: null }));
       const { title, artist, year } = metadata.common;
 
-      // console.log(title, artist, year);
+      const stat = fs.statSync(fullPath);
+      const song = getSongByPath.get(fullPath);
 
-      insertTrack.run({ title, artist, year, path: fullPath });
+      // Update the track record in the DB if the file has been modified since the last time we saw it
+      // Insert the track record if it has not been seen before
+      if (!song || new Date(song.lastUpdated) < new Date(stat.mtime)) {
+        insertTrack.run({
+          title,
+          artist,
+          year,
+          path: fullPath,
+          lastUpdated: new Date().toISOString()
+        });
+      }
     })
     .catch(err => {
       console.error(err.message);
