@@ -6,9 +6,11 @@ import cors from 'cors';
 import database from 'better-sqlite3';
 import * as musicmetadata from 'music-metadata';
 
+import chalk from 'chalk';
+
 // init database
 const db = database('dev.db', {
-  verbose: (msg: string) => console.log(`${msg}\n`)
+  verbose: (msg: string) => console.log(chalk.yellow(`${msg}\n`)),
 });
 
 // create schema
