@@ -42,11 +42,11 @@ const insertTrack = db.prepare(
 // get all file paths in music dir for parsing
 const filePaths = fs.readdirSync(__dirname + '/music');
 
-filePaths.forEach(path => {
+filePaths.forEach((path) => {
   const fullPath = `${__dirname}/music/${path}`;
   musicmetadata
     .parseFile(fullPath)
-    .then(metadata => {
+    .then((metadata) => {
       // console.log(util.inspect(metadata, { showHidden: false, depth: null }));
       const { title, artist, year } = metadata.common;
 
@@ -61,11 +61,11 @@ filePaths.forEach(path => {
           artist,
           year,
           path: fullPath,
-          lastUpdated: new Date().toISOString()
+          lastUpdated: new Date().toISOString(),
         });
       }
     })
-    .catch(err => {
+    .catch((err) => {
       console.error(err.message);
     });
 });
@@ -92,15 +92,16 @@ trackRoute.get('/:trackID', (req, res) => {
     res.status(404).send('Track not found!');
   }
 
-  console.log(req);
-  console.log(song);
+  // console.log(req);
+  // console.log(song);
 
   const fileStream = fs.createReadStream(song.path);
 
-  fileStream.on('error', err => {
+  fileStream.on('error', (err) => {
     res.status(500).send(err);
   });
 
+  // TODO: MIME type lookup on insert for res
   res.set('content-type', 'audio/mp3');
   res.set('accept-ranges', 'bytes');
   fileStream.pipe(res);
