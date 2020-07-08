@@ -41,10 +41,11 @@ const insertTrack = db.prepare(
 // TODO - store last updated time for file in db, check if it has changed and only update if it has
 
 // get all file paths in music dir for parsing
-const filePaths = fs.readdirSync(__dirname + '/../music');
+const filePaths = fs.readdirSync('/var/lib/musicthingstorage/music/');
+///var/lib/musicthingstorage ?
 
 filePaths.forEach((path) => {
-  const fullPath = `${__dirname}/../music/${path}`;
+  const fullPath = `/var/lib/musicthingstorage/music/${path}`;
   musicmetadata
     .parseFile(fullPath)
     .then((metadata) => {
