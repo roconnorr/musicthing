@@ -5,7 +5,7 @@ node_modules
 
 # backend
 dev.db
-music
+testmusic
 dist
 
 /.pnp

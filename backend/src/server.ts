@@ -4,6 +4,7 @@ import express from 'express';
 import cors from 'cors';
 
 import database from 'better-sqlite3';
+
 import * as musicmetadata from 'music-metadata';
 
 import chalk from 'chalk';
@@ -40,10 +41,10 @@ const insertTrack = db.prepare(
 // TODO - store last updated time for file in db, check if it has changed and only update if it has
 
 // get all file paths in music dir for parsing
-const filePaths = fs.readdirSync(__dirname + '/music');
+const filePaths = fs.readdirSync(__dirname + '/../music');
 
 filePaths.forEach((path) => {
-  const fullPath = `${__dirname}/music/${path}`;
+  const fullPath = `${__dirname}/../music/${path}`;
   musicmetadata
     .parseFile(fullPath)
     .then((metadata) => {
@@ -72,6 +73,7 @@ filePaths.forEach((path) => {
 
 // Create Express server and routes
 const app = express();
+app.disable('x-powered-by');
 const trackRoute = express.Router();
 
 // middleware
@@ -117,5 +119,5 @@ trackRoute.get('/', (req, res) => {
 });
 
 app.listen(3005, () => {
-  console.log('Listening on port 3005');
+  console.log(chalk.red.bold('Listening on port 3005'));
 });
