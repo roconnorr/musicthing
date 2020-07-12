@@ -1,4 +1,4 @@
-version: '3.7'
+version: "3.7"
 
 services:
   frontend-dev:
@@ -7,10 +7,10 @@ services:
       context: ./webclient/.
       dockerfile: dev.dockerfile
     volumes:
-      - '.:/app'
-      - '/app/node_modules'
+      - "./webclient:/app"
+      - "/app/node_modules"
     ports:
-      - '3001:3000'
+      - "3000:3000"
     environment:
       - NODE_ENV=development
       - CHOKIDAR_USEPOLLING=true
@@ -21,8 +21,8 @@ services:
       context: ./backend/.
       dockerfile: prod.dockerfile
     volumes:
-      - './testmusic:/var/lib/musicthingdata/music'
+      - "./testmusic:/var/lib/musicthingstorage/music"
     # - './backend/:/app'
     # - '/app/node_modules'
     ports:
-      - '3005:3005'
+      - "3005:3005"

@@ -42,7 +42,6 @@ const insertTrack = db.prepare(
 
 // get all file paths in music dir for parsing
 const filePaths = fs.readdirSync('/var/lib/musicthingstorage/music/');
-///var/lib/musicthingstorage ?
 
 filePaths.forEach((path) => {
   const fullPath = `/var/lib/musicthingstorage/music/${path}`;
