@@ -1,0 +1,24 @@
+version: "3.7"
+
+services:
+  frontend-prod:
+    container_name: musicthing-frontend-prod
+    build:
+      context: ./webclient/.
+      dockerfile: prod.dockerfile
+    ports:
+      - "80:80"
+    environment:
+      - NODE_ENV=production
+
+  backend-prod:
+    container_name: musicthing-backend-prod
+    build:
+      context: ./backend/.
+      dockerfile: prod.dockerfile
+    volumes:
+      - "./testmusic:/var/lib/musicthingstorage/music"
+    ports:
+      - "3005:3005"
+    environment:
+      - NODE_ENV=production

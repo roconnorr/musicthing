@@ -15,14 +15,16 @@ services:
       - NODE_ENV=development
       - CHOKIDAR_USEPOLLING=true
 
-  backend-prod:
-    container_name: musicthing-backend-prod
+  backend-dev:
+    container_name: musicthing-backend-dev
     build:
       context: ./backend/.
-      dockerfile: prod.dockerfile
+      dockerfile: dev.dockerfile
     volumes:
       - "./testmusic:/var/lib/musicthingstorage/music"
-    # - './backend/:/app'
-    # - '/app/node_modules'
+      - "./backend:/app"
+      - "/app/node_modules"
     ports:
       - "3005:3005"
+    environment:
+      - NODE_ENV=development
