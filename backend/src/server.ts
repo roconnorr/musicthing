@@ -3,15 +3,13 @@ import fs from 'fs';
 import express from 'express';
 import cors from 'cors';
 
-import database from 'better-sqlite3';
-
-import * as musicmetadata from 'music-metadata';
-
 import chalk from 'chalk';
 import arg from 'arg';
 
-import packageJSON from '../package.json';
+import { getSong, getAllSongs } from './database';
+import { scanMusicFolder } from './scanner';
 
+import packageJSON from '../package.json';
 const HELP_ARG = '--help';
 const VERSION_ARG = '--version';
 const SCAN_ARG = '--scan';
@@ -48,68 +46,9 @@ if (args[VERSION_ARG] === true) {
   process.exit(0);
 }
 
-// init database
-const db = database('dev.db', {
-  verbose: (msg: string) => console.log(chalk.yellow(`${msg}\n`)),
-});
-
-// create schema
-const createTrackTable = db.prepare(
-  `
-  CREATE TABLE IF NOT EXISTS tracks (
-    id INTEGER PRIMARY KEY,
-    title TEXT NOT NULL,
-    artist TEXT NOT NULL,
-    year TEXT NOT NULL,
-    path TEXT NOT NULL,
-    lastUpdated TEXT NOT NULL
-  );
-  `
-);
-createTrackTable.run();
-
-// db queries
-const getSong = db.prepare(`SELECT * FROM tracks where id = ?`);
-const getSongByPath = db.prepare(`SELECT * FROM tracks where path = ?`);
-const getAllSongs = db.prepare(`SELECT * FROM tracks`);
-const insertTrack = db.prepare(
-  `INSERT INTO tracks (title, artist, year, path, lastUpdated) VALUES (@title, @artist, @year, @path, @lastUpdated)`
-);
-
-// startup hax - read music dir and insert into the db
-// TODO - store last updated time for file in db, check if it has changed and only update if it has
-
 if (args[SCAN_ARG] === true) {
-  // get all file paths in music dir for parsing
-  const filePaths = fs.readdirSync('/var/lib/musicthingstorage/music/');
-
-  filePaths.forEach((path) => {
-    const fullPath = `/var/lib/musicthingstorage/music/${path}`;
-    musicmetadata
-      .parseFile(fullPath)
-      .then((metadata) => {
-        // console.log(util.inspect(metadata, { showHidden: false, depth: null }));
-        const { title, artist, year } = metadata.common;
-
-        const stat = fs.statSync(fullPath);
-        const song = getSongByPath.get(fullPath);
-
-        // Update the track record in the DB if the file has been modified since the last time we saw it
-        // Insert the track record if it has not been seen before
-        if (!song || new Date(song.lastUpdated) < new Date(stat.mtime)) {
-          insertTrack.run({
-            title,
-            artist,
-            year,
-            path: fullPath,
-            lastUpdated: new Date().toISOString(),
-          });
-        }
-      })
-      .catch((err) => {
-        console.error(err.message);
-      });
-  });
+  // TODO: add music folder path cli arg
+  scanMusicFolder('/var/lib/musicthingstorage/music/');
 }
 
 // Create Express server and routes
