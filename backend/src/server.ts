@@ -8,6 +8,45 @@ import database from 'better-sqlite3';
 import * as musicmetadata from 'music-metadata';
 
 import chalk from 'chalk';
+import arg from 'arg';
+
+import packageJSON from '../package.json';
+
+const HELP_ARG = '--help';
+const VERSION_ARG = '--version';
+const SCAN_ARG = '--scan';
+
+const args = arg({
+  // Arguments
+  '--help': Boolean,
+  '--version': Boolean,
+  '--scan': Boolean,
+  // '--port':    Number,      // --port <number> or --port=<number> TODO: add port option
+
+  // Aliases
+  '-h': '--help',
+  '-v': '--version',
+  '-s': '--scan',
+});
+
+if (args[HELP_ARG] === true) {
+  console.log(`
+${chalk.green(`musicthing server - version ${packageJSON.version}`)}
+
+  Options
+    --help, -h  Display this message
+
+    --version, -v  Print version string
+
+    --scan, -s  Rescan library on startup
+  `);
+  process.exit(0);
+}
+
+if (args[VERSION_ARG] === true) {
+  console.log(packageJSON.version);
+  process.exit(0);
+}
 
 // init database
 const db = database('dev.db', {
@@ -40,36 +79,38 @@ const insertTrack = db.prepare(
 // startup hax - read music dir and insert into the db
 // TODO - store last updated time for file in db, check if it has changed and only update if it has
 
-// get all file paths in music dir for parsing
-const filePaths = fs.readdirSync('/var/lib/musicthingstorage/music/');
+if (args[SCAN_ARG] === true) {
+  // get all file paths in music dir for parsing
+  const filePaths = fs.readdirSync('/var/lib/musicthingstorage/music/');
 
-filePaths.forEach((path) => {
-  const fullPath = `/var/lib/musicthingstorage/music/${path}`;
-  musicmetadata
-    .parseFile(fullPath)
-    .then((metadata) => {
-      // console.log(util.inspect(metadata, { showHidden: false, depth: null }));
-      const { title, artist, year } = metadata.common;
+  filePaths.forEach((path) => {
+    const fullPath = `/var/lib/musicthingstorage/music/${path}`;
+    musicmetadata
+      .parseFile(fullPath)
+      .then((metadata) => {
+        // console.log(util.inspect(metadata, { showHidden: false, depth: null }));
+        const { title, artist, year } = metadata.common;
 
-      const stat = fs.statSync(fullPath);
-      const song = getSongByPath.get(fullPath);
+        const stat = fs.statSync(fullPath);
+        const song = getSongByPath.get(fullPath);
 
-      // Update the track record in the DB if the file has been modified since the last time we saw it
-      // Insert the track record if it has not been seen before
-      if (!song || new Date(song.lastUpdated) < new Date(stat.mtime)) {
-        insertTrack.run({
-          title,
-          artist,
-          year,
-          path: fullPath,
-          lastUpdated: new Date().toISOString(),
-        });
-      }
-    })
-    .catch((err) => {
-      console.error(err.message);
-    });
-});
+        // Update the track record in the DB if the file has been modified since the last time we saw it
+        // Insert the track record if it has not been seen before
+        if (!song || new Date(song.lastUpdated) < new Date(stat.mtime)) {
+          insertTrack.run({
+            title,
+            artist,
+            year,
+            path: fullPath,
+            lastUpdated: new Date().toISOString(),
+          });
+        }
+      })
+      .catch((err) => {
+        console.error(err.message);
+      });
+  });
+}
 
 // Create Express server and routes
 const app = express();
