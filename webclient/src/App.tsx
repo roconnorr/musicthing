@@ -1,4 +1,5 @@
 import React, { ReactElement } from 'react';
+import { Provider as StoreProvider } from 'react-redux';
 
 import 'react-virtualized/styles.css';
 import './App.css';
@@ -10,6 +11,8 @@ import {
   CSSReset,
   ColorModeProvider
 } from '@chakra-ui/core';
+
+import { store } from './store/createStore';
 
 import Header from './components/header/Header';
 import Footer from './components/footer/Footer';
@@ -30,15 +33,17 @@ const newTheme = {
 
 function App(): ReactElement {
   return (
-    <ThemeProvider theme={newTheme}>
-      <ColorModeProvider>
-        <CSSReset />
-        <Header />
-        <Heading>Welcome to musicthing</Heading>
-        <TrackTable />
-        <Footer />
-      </ColorModeProvider>
-    </ThemeProvider>
+    <StoreProvider store={store}>
+      <ThemeProvider theme={newTheme}>
+        <ColorModeProvider>
+          <CSSReset />
+          <Header />
+          <Heading>Welcome to musicthing</Heading>
+          <TrackTable />
+          <Footer />
+        </ColorModeProvider>
+      </ThemeProvider>
+    </StoreProvider>
   );
 }
 
