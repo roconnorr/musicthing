@@ -4,6 +4,8 @@ import { SortableContainer, SortEnd } from 'react-sortable-hoc';
 import { List, ListRowProps } from 'react-virtualized';
 
 import TrackTableItem, { Track } from './track/Track';
+import { addTrack } from '../../store/playlist/playlist';
+import { store } from '../../store/createStore';
 
 type VirtualListProps = {
   tracks: Track[];
@@ -72,9 +74,12 @@ class TrackTable extends Component<{}, TrackTableState> {
     console.log(response);
     const data = await response.json();
     console.log(data);
-    const tracks = data.map(
-      (track: any) => new Track(track.id, track.title, track.artist, track.year)
-    );
+    // test hax: move this fetching and redux logic out of here
+    const tracks = data.map((track: any) => {
+      const track2 = new Track(track.id, track.title, track.artist, track.year);
+      store.dispatch(addTrack(track2));
+      return track2;
+    });
     console.log(tracks);
     this.setState({ items: tracks });
   }

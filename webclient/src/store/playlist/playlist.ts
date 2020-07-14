@@ -1,28 +1,39 @@
 import {
-  createAction,
-  createReducer,
   createSlice,
-  PayloadAction
+  PayloadAction,
+  createEntityAdapter
 } from '@reduxjs/toolkit';
 
-type SliceState = { state: 'loading' } | { state: 'finished'; data: string };
+// type SliceState = { state: 'loading' } | { state: 'finished'; data: string };
 
-const initialState: SliceState = { state: 'loading' };
+// const initialState: SliceState = { state: 'loading' };
 
 // const increment = createAction<number, 'increment'>('increment');
 // const decrement = createAction<number, 'decrement'>('decrement');
 
+type Track = {
+  id: number;
+  name: string;
+  artist: string;
+  year: string;
+  // ...
+};
+
+const playlistAdapter = createEntityAdapter<Track>();
+
+const initialState = playlistAdapter.getInitialState();
+
 const slice = createSlice({
-  name: 'test',
-  initialState: initialState,
+  name: 'playlist',
+  initialState,
   reducers: {
-    increment: (state, action: PayloadAction<number>) => state
+    addTrack: playlistAdapter.addOne
   }
 });
 
 // Extract the action creators object and the reducer
 const { actions, reducer } = slice;
 // Extract and export each action creator by name
-export const { increment } = actions;
+export const { addTrack } = actions;
 // Export the reducer, either as a default or named export
 export { reducer };
