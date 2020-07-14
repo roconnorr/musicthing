@@ -1,18 +1,21 @@
-import * as musicmetadata from 'music-metadata';
 import klaw, { Item } from 'klaw';
 import through2 from 'through2';
+
+import * as musicmetadata from 'music-metadata';
+import * as mime from 'mime-types';
+
 import chalk from 'chalk';
 
 import { getSongByPath, insertTrack } from './database';
 
-// TODO: proper mime type filtering, only include audio types
-const excludeDirFilter = through2.obj(function (item, enc, next) {
-  if (
-    !item.stats.isDirectory() &&
-    !item.path.includes('.jpg') &&
-    !item.path.includes('.jpeg') &&
-    !item.path.includes('.png')
-  ) {
+const isAudioType = (path: string) => {
+  const mimeType = mime.lookup(path);
+  return mimeType ? mimeType.includes('audio') : false;
+};
+
+// exclude directories and include files with an audio MIME type
+const excludeDirFilter = through2.obj(function (item, _enc, next) {
+  if (!item.stats.isDirectory() && isAudioType(item.path)) {
     this.push(item);
   }
   next();
@@ -26,7 +29,7 @@ export const scanTrackDirectory = async (path: string) => {
       console.log(err.message);
       console.log(item.path);
     })
-    .on('end', () => console.log('File scanner complete'));
+    .on('end', () => console.log('File scan complete'));
 };
 
 const processTrack = async (path: string, mtime: Date) => {
@@ -41,6 +44,7 @@ const processTrack = async (path: string, mtime: Date) => {
     // Update the track record in the DB if the file has been modified since the last time we saw it
     // Insert the track record if it has not been seen before
     // TODO: add moment
+    // TODO: store MIME type
     if (!song || new Date(song.lastUpdated) < mtime) {
       console.log(`Adding new track: ${title} - ${artist}`);
       insertTrack.run({
