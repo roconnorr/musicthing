@@ -7,7 +7,7 @@ import chalk from 'chalk';
 import arg from 'arg';
 
 import { getSong, getAllSongs } from './database';
-import { scanMusicFolder } from './scanner';
+import { scanTrackDirectory } from './scanner';
 
 import packageJSON from '../package.json';
 const HELP_ARG = '--help';
@@ -48,7 +48,8 @@ if (args[VERSION_ARG] === true) {
 
 if (args[SCAN_ARG] === true) {
   // TODO: add music folder path cli arg
-  scanMusicFolder('/var/lib/musicthingstorage/music/');
+  // TODO: wait until the scan is complete to start the server
+  scanTrackDirectory('/var/lib/musicthingstorage/music/');
 }
 
 // Create Express server and routes

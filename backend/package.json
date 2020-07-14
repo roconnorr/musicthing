@@ -13,13 +13,17 @@
     "chalk": "^4.1.0",
     "cors": "^2.8.5",
     "express": "^4.17.1",
-    "music-metadata": "7.0.0"
+    "klaw": "^3.0.0",
+    "music-metadata": "7.0.0",
+    "through2": "^4.0.2"
   },
   "devDependencies": {
     "@types/better-sqlite3": "^5.4.0",
     "@types/cors": "^2.8.6",
     "@types/express": "^4.17.7",
+    "@types/klaw": "^3.0.1",
     "@types/node": "^14.0.20",
+    "@types/through2": "^2.0.36",
     "nodemon": "^2.0.4",
     "ts-node": "^8.10.2",
     "typescript": "^3.9.6"
