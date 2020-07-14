@@ -1,5 +1,5 @@
 import klaw, { Item } from 'klaw';
-import through2 from 'through2';
+import stream from 'stream';
 
 import * as musicmetadata from 'music-metadata';
 import * as mime from 'mime-types';
@@ -14,16 +14,20 @@ const isAudioType = (path: string) => {
 };
 
 // exclude directories and include files with an audio MIME type
-const excludeDirFilter = through2.obj(function (item, _enc, next) {
-  if (!item.stats.isDirectory() && isAudioType(item.path)) {
-    this.push(item);
-  }
-  next();
+const excludeNonAudio = new stream.Transform({
+  transform(object, _encoding, callback) {
+    if (!object.stats.isDirectory() && isAudioType(object.path)) {
+      this.push(object);
+    }
+
+    callback();
+  },
+  objectMode: true,
 });
 
 export const scanTrackDirectory = async (path: string) => {
   klaw(path)
-    .pipe(excludeDirFilter)
+    .pipe(excludeNonAudio)
     .on('data', (item) => processTrack(item.path, item.stats.mtime))
     .on('error', (err: Error, item: Item) => {
       console.log(err.message);

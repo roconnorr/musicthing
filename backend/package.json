@@ -15,8 +15,7 @@
     "express": "^4.17.1",
     "klaw": "^3.0.0",
     "mime-types": "^2.1.27",
-    "music-metadata": "7.0.0",
-    "through2": "^4.0.2"
+    "music-metadata": "7.0.0"
   },
   "devDependencies": {
     "@types/better-sqlite3": "^5.4.0",
