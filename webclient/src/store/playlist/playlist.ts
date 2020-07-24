@@ -11,7 +11,7 @@ import {
 // const increment = createAction<number, 'increment'>('increment');
 // const decrement = createAction<number, 'decrement'>('decrement');
 
-type Track = {
+export type Track = {
   id: number;
   name: string;
   artist: string;

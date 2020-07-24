@@ -3,8 +3,8 @@ import arrayMove from 'array-move';
 import { SortableContainer, SortEnd } from 'react-sortable-hoc';
 import { List, ListRowProps } from 'react-virtualized';
 
-import TrackTableItem, { Track } from './track/Track';
-import { addTrack } from '../../store/playlist/playlist';
+import TrackTableItem from './track/Track';
+import { addTrack, Track } from '../../store/playlist/playlist';
 import { setPlayingTrack } from '../../store/nowPlaying/nowPlaying';
 import { store } from '../../store/createStore';
 
@@ -77,7 +77,7 @@ class TrackTable extends Component<{}, TrackTableState> {
     console.log(data);
     // test hax: move this fetching and redux logic out of here
     const tracks = data.map((track: any) => {
-      const track2 = new Track(track.id, track.title, track.artist, track.year);
+      const track2 = {  id: track.id, name: track.title, artist: track.artist, year: track.year};
       store.dispatch(addTrack(track2));
       return track2;
     });

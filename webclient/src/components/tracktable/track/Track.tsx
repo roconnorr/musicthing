@@ -1,20 +1,7 @@
 import React from 'react';
 import { SortableElement } from 'react-sortable-hoc';
 import { ListItem } from '@chakra-ui/core';
-
-export class Track {
-  id: number;
-  name: string;
-  artist: string;
-  year: string;
-
-  constructor(id: number, name: string, artist: string, year: string) {
-    this.id = id;
-    this.name = name;
-    this.artist = artist;
-    this.year = year;
-  }
-}
+import { Track } from '../../../store/playlist/playlist';
 
 type TrackItemProps = {
   track: Track;
