@@ -1,9 +1,14 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import { useDispatch } from 'react-redux';
 
-import { reducer } from './playlist/playlist';
+import { reducer as playlistReducer } from './playlist/playlist';
+import { reducer as nowPlayingReducer } from './nowPlaying/nowPlaying';
 
-const rootReducer = combineReducers({ playlist: reducer });
+const rootReducer = combineReducers({
+  playlist: playlistReducer,
+  nowPlaying: nowPlayingReducer
+});
+
 export type RootState = ReturnType<typeof store.getState>;
 
 export const store = configureStore({

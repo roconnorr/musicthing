@@ -5,17 +5,18 @@ import { List, ListRowProps } from 'react-virtualized';
 
 import TrackTableItem, { Track } from './track/Track';
 import { addTrack } from '../../store/playlist/playlist';
+import { setPlayingTrack } from '../../store/nowPlaying/nowPlaying';
 import { store } from '../../store/createStore';
 
 type VirtualListProps = {
   tracks: Track[];
   listRef: RefObject<List>;
-  onClickRow: (id: number) => void;
+  onClickRow: (track: Track) => void;
 };
 
 class VirtualList extends Component<VirtualListProps, {}> {
-  handleClickRow = (id: number): void => {
-    this.props.onClickRow(id);
+  handleClickRow = (track: Track): void => {
+    this.props.onClickRow(track);
   };
 
   renderRow = ({ index, key, style }: ListRowProps): ReactElement => {
@@ -27,7 +28,7 @@ class VirtualList extends Component<VirtualListProps, {}> {
         <TrackTableItem
           track={track}
           index={index}
-          onClick={(id: number): void => this.handleClickRow(id)}
+          onClick={(track: Track): void => this.handleClickRow(track)}
         />
       </div>
     );
@@ -42,8 +43,8 @@ class VirtualList extends Component<VirtualListProps, {}> {
         rowHeight={58}
         rowRenderer={this.renderRow}
         rowCount={tracks.length}
-        width={400}
-        height={300}
+        width={600}
+        height={400}
       />
     );
   }
@@ -107,10 +108,13 @@ class TrackTable extends Component<{}, TrackTableState> {
         listRef={this.listRef}
         tracks={items}
         onSortEnd={this.onSortEnd}
-        onClickRow={(id: number): void => {
+        onClickRow={(track: Track): void => {
           this.setState({
-            playingTrackId: id
+            playingTrackId: track.id
           });
+
+          //temp testing
+          store.dispatch(setPlayingTrack(track));
         }}
       />
     );

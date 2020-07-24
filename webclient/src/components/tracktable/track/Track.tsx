@@ -18,7 +18,7 @@ export class Track {
 
 type TrackItemProps = {
   track: Track;
-  onClick: (id: number) => void;
+  onClick: (track: Track) => void;
 };
 
 const TrackTableItem = SortableElement(({ track, onClick }: TrackItemProps) => {
@@ -30,7 +30,7 @@ const TrackTableItem = SortableElement(({ track, onClick }: TrackItemProps) => {
       listStyleType="none"
     >
       {`${track.name} - ${track.artist} - ${track.year} `}
-      <button onClick={(): void => onClick(track.id)}>⏯</button>
+      <button onClick={(): void => onClick(track)}>⏯</button>
     </ListItem>
   );
 });
