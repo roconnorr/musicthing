@@ -22,18 +22,24 @@ export type Track = {
 const playlistAdapter = createEntityAdapter<Track>();
 
 const initialState = playlistAdapter.getInitialState();
+const selectors = playlistAdapter.getSelectors();
 
 const slice = createSlice({
   name: 'playlist',
   initialState,
   reducers: {
-    addTrack: playlistAdapter.addOne
+    addTrack: playlistAdapter.addOne,
+    removeTrack: playlistAdapter.removeOne,
+    updateTracks: playlistAdapter.updateMany,
+    setAllTracks: playlistAdapter.setAll
   }
 });
 
 // Extract the action creators object and the reducer
 const { actions, reducer } = slice;
 // Extract and export each action creator by name
-export const { addTrack } = actions;
+export const { addTrack, removeTrack, updateTracks, setAllTracks } = actions;
+
+export const { selectAll } = selectors;
 // Export the reducer, either as a default or named export
 export { reducer };

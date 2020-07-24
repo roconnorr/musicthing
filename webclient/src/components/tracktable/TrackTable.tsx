@@ -2,11 +2,17 @@ import React, { Component, ReactElement, RefObject } from 'react';
 import arrayMove from 'array-move';
 import { SortableContainer, SortEnd } from 'react-sortable-hoc';
 import { List, ListRowProps } from 'react-virtualized';
+import { connect } from 'react-redux';
 
 import TrackTableItem from './track/Track';
-import { addTrack, Track } from '../../store/playlist/playlist';
+import {
+  Track,
+  addTrack,
+  selectAll,
+  setAllTracks
+} from '../../store/playlist/playlist';
 import { setPlayingTrack } from '../../store/nowPlaying/nowPlaying';
-import { store } from '../../store/createStore';
+import { RootState, store } from '../../store/createStore';
 
 type VirtualListProps = {
   tracks: Track[];
@@ -52,22 +58,24 @@ class VirtualList extends Component<VirtualListProps, {}> {
 
 const SortableVirtualList = SortableContainer(VirtualList);
 
-type TrackTableState = {
-  items: Track[];
-  playingTrackId: number;
+type StateProps = {
+  tracks: Track[];
 };
 
-class TrackTable extends Component<{}, TrackTableState> {
+type DispatchProps = {
+  setAllTracks: any;
+  setPlayingTrack: any;
+  addTrack: any;
+};
+
+type TrackTableProps = StateProps & DispatchProps;
+
+class TrackTable extends Component<TrackTableProps, {}> {
   listRef: RefObject<List>;
 
-  constructor(props: {}) {
+  constructor(props: TrackTableProps) {
     super(props);
     this.listRef = React.createRef();
-
-    this.state = {
-      items: [],
-      playingTrackId: 0
-    };
   }
 
   async componentDidMount(): Promise<void> {
@@ -77,12 +85,16 @@ class TrackTable extends Component<{}, TrackTableState> {
     console.log(data);
     // test hax: move this fetching and redux logic out of here
     const tracks = data.map((track: any) => {
-      const track2 = {  id: track.id, name: track.title, artist: track.artist, year: track.year};
-      store.dispatch(addTrack(track2));
+      const track2 = {
+        id: track.id,
+        name: track.title,
+        artist: track.artist,
+        year: track.year
+      };
+      console.log('hurr');
+      this.props.addTrack(track2);
       return track2;
     });
-    console.log(tracks);
-    this.setState({ items: tracks });
   }
 
   onSortEnd = ({ oldIndex, newIndex }: SortEnd): void => {
@@ -90,35 +102,40 @@ class TrackTable extends Component<{}, TrackTableState> {
       return;
     }
 
-    const { items } = this.state;
+    const { tracks, setAllTracks } = this.props;
 
-    this.setState({
-      items: arrayMove(items, oldIndex, newIndex)
-    });
+    store.dispatch(setAllTracks(arrayMove(tracks, oldIndex, newIndex)));
 
     // Update the list via the ref
     this.listRef.current?.recomputeRowHeights();
   };
 
   render(): ReactElement {
-    const { items } = this.state;
+    const { tracks, setPlayingTrack } = this.props;
 
     return (
       <SortableVirtualList
         listRef={this.listRef}
-        tracks={items}
+        tracks={tracks}
         onSortEnd={this.onSortEnd}
         onClickRow={(track: Track): void => {
-          this.setState({
-            playingTrackId: track.id
-          });
-
-          //temp testing
-          store.dispatch(setPlayingTrack(track));
+          setPlayingTrack(track);
         }}
       />
     );
   }
 }
 
-export default TrackTable;
+const mapState = (state: RootState): StateProps => {
+  return {
+    tracks: selectAll(state.playlist)
+  };
+};
+
+const mapDispatch = {
+  addTrack,
+  setPlayingTrack,
+  setAllTracks
+};
+
+export default connect(mapState, mapDispatch)(TrackTable);
