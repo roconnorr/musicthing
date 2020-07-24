@@ -1,17 +1,16 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { Track } from '../playlist/playlist';
 
 type NowPlayingState = {
-  track: Track | null;
+  trackId: number;
 };
 
-const initialState: NowPlayingState = { track: null };
+const initialState: NowPlayingState = { trackId: 0 };
 
 const slice = createSlice({
   name: 'nowPlaying',
   initialState,
   reducers: {
-    setPlayingTrack: (state, action) => ({ track: action.payload })
+    setPlayingTrack: (state, action) => ({ trackId: action.payload })
   }
 });
 

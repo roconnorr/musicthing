@@ -118,7 +118,7 @@ class TrackTable extends Component<TrackTableProps, {}> {
         tracks={tracks}
         onSortEnd={this.onSortEnd}
         onClickRow={(track: Track): void => {
-          setPlayingTrack(track);
+          setPlayingTrack(track.id);
         }}
       />
     );
