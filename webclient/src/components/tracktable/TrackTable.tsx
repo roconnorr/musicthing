@@ -12,7 +12,7 @@ import {
   setAllTracks
 } from '../../store/playlist/playlist';
 import { setPlayingTrack } from '../../store/nowPlaying/nowPlaying';
-import { RootState, store } from '../../store/createStore';
+import { RootState } from '../../store/createStore';
 
 type VirtualListProps = {
   tracks: Track[];
@@ -91,7 +91,6 @@ class TrackTable extends Component<TrackTableProps, {}> {
         artist: track.artist,
         year: track.year
       };
-      console.log('hurr');
       this.props.addTrack(track2);
       return track2;
     });
@@ -104,7 +103,7 @@ class TrackTable extends Component<TrackTableProps, {}> {
 
     const { tracks, setAllTracks } = this.props;
 
-    store.dispatch(setAllTracks(arrayMove(tracks, oldIndex, newIndex)));
+    setAllTracks(arrayMove(tracks, oldIndex, newIndex));
 
     // Update the list via the ref
     this.listRef.current?.recomputeRowHeights();
