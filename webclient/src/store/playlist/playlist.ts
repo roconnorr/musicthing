@@ -40,6 +40,6 @@ const { actions, reducer } = slice;
 // Extract and export each action creator by name
 export const { addTrack, removeTrack, updateTracks, setAllTracks } = actions;
 
-export const { selectAll } = selectors;
+export const { selectAll, selectIds, selectById } = selectors;
 // Export the reducer, either as a default or named export
 export { reducer };
