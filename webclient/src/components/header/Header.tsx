@@ -49,9 +49,8 @@ const Header = (): ReactElement => {
         alignItems="center"
         flexGrow={1}
       >
-        <MenuItems>Docs</MenuItems>
-        <MenuItems>Examples</MenuItems>
-        <MenuItems>Blog</MenuItems>
+        <MenuItems>Library</MenuItems>
+        <MenuItems>Playlists</MenuItems>
       </Box>
 
       <Box

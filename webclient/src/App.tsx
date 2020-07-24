@@ -17,6 +17,7 @@ import { store } from './store/createStore';
 import Header from './components/header/Header';
 import Footer from './components/footer/Footer';
 import TrackTable from './components/tracktable/TrackTable';
+import Player from './components/player/Player';
 
 const breakpoints = ['360px', '768px', '1024px', '1440px'];
 const bp = {
@@ -40,7 +41,7 @@ function App(): ReactElement {
           <Header />
           <Heading>Welcome to musicthing</Heading>
           <TrackTable />
-          <Footer />
+          <Player />
         </ColorModeProvider>
       </ThemeProvider>
     </StoreProvider>
