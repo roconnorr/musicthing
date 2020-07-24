@@ -11,14 +11,6 @@ import {
 // const increment = createAction<number, 'increment'>('increment');
 // const decrement = createAction<number, 'decrement'>('decrement');
 
-export type Track = {
-  id: number;
-  name: string;
-  artist: string;
-  year: string;
-  // ...
-};
-
 const playlistAdapter = createEntityAdapter<Track>();
 
 const initialState = playlistAdapter.getInitialState();

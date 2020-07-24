@@ -6,7 +6,6 @@ import { connect } from 'react-redux';
 
 import TrackTableItem from './track/Track';
 import {
-  Track,
   addTrack,
   selectAll,
   setAllTracks
@@ -62,6 +61,7 @@ type StateProps = {
   tracks: Track[];
 };
 
+// TODO: proper type, no any
 type DispatchProps = {
   setAllTracks: any;
   setPlayingTrack: any;
