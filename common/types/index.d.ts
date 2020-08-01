@@ -3,5 +3,5 @@ type Track = {
   name: string;
   artist: string;
   year: string;
-  url: URL;
+  url: string;
 };
