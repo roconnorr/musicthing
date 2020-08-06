@@ -13,18 +13,21 @@ import packageJSON from '../package.json';
 const HELP_ARG = '--help';
 const VERSION_ARG = '--version';
 const SCAN_ARG = '--scan';
+const DIR_ARG = '--dir';
 
 const args = arg({
   // Arguments
   '--help': Boolean,
   '--version': Boolean,
   '--scan': Boolean,
+  '--dir': String,
   // '--port':    Number,      // --port <number> or --port=<number> TODO: add port option
 
   // Aliases
   '-h': '--help',
   '-v': '--version',
   '-s': '--scan',
+  '-d': '--dir',
 });
 
 if (args[HELP_ARG] === true) {
@@ -32,11 +35,13 @@ if (args[HELP_ARG] === true) {
 ${chalk.green(`musicthing server - version ${packageJSON.version}`)}
 
   Options
-    --help, -h  Display this message
+    --help, -h      Display this message
 
-    --version, -v  Print version string
+    --version, -v   Print version string
 
-    --scan, -s  Rescan library on startup
+    --scan, -s      Rescan library on startup
+
+    --dir, -d       Specify the directory to scan
   `);
   process.exit(0);
 }
@@ -47,9 +52,9 @@ if (args[VERSION_ARG] === true) {
 }
 
 if (args[SCAN_ARG] === true) {
-  // TODO: add music folder path cli arg
+  // TODO: refactor this so if the scan arg is passed it will check all existing files in db
   // TODO: wait until the scan is complete to start the server
-  scanTrackDirectory('/var/lib/musicthingstorage/music/');
+  scanTrackDirectory(args[DIR_ARG] ?? '../testmusic');
 }
 
 // Create Express server and routes
