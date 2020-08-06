@@ -1,4 +1,4 @@
-A frontend and backend for a self hosted streaming music server built with TypeScript, React and NodeJS.
+A frontend and backend for a self hosted streaming music server built with TypeScript, React, NodeJS and SQLite.
 
 # Development environment
 
@@ -16,7 +16,7 @@ A frontend and backend for a self hosted streaming music server built with TypeS
 
 `npm run start` to compile and run  
 `npm run start:dev` for automatic reloading  
-run with `--help` to display CLI options
+Run with `--help` to display CLI options
 
 ### Frontend
 
