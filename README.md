@@ -15,7 +15,8 @@ A frontend and backend for a self hosted streaming music server built with TypeS
 ### Backend
 
 `npm run start` to compile and run  
-`npm run start:dev` for automatic reloading
+`npm run start:dev` for automatic reloading  
+run with `--help` to display CLI options
 
 ### Frontend
 
