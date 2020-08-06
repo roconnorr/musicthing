@@ -51,8 +51,9 @@ if (args[VERSION_ARG] === true) {
   process.exit(0);
 }
 
-if (args[SCAN_ARG] === true) {
+if (args[SCAN_ARG] === true || args[DIR_ARG] !== undefined) {
   // TODO: refactor this so if the scan arg is passed it will check all existing files in db
+  // TODO: Validate dir arg and provide readable error message
   // TODO: wait until the scan is complete to start the server
   scanTrackDirectory(args[DIR_ARG] ?? '../testmusic');
 }
