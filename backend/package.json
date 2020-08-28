@@ -2,7 +2,7 @@
   "name": "musicthing-backend",
   "version": "0.0.1",
   "scripts": {
-    "start": "tsc && node dist/src/server.js",
+    "start": "tsc && node dist/src/server.js --scan",
     "start:dev": "nodemon",
     "build": "tsc",
     "test": "echo \"Error: no test specified\" && exit 1"

@@ -3,6 +3,7 @@ import {
   PayloadAction,
   createEntityAdapter
 } from '@reduxjs/toolkit';
+import { Track } from '../../types';
 
 // type SliceState = { state: 'loading' } | { state: 'finished'; data: string };
 

@@ -1,6 +1,7 @@
 import React from 'react';
 import { SortableElement } from 'react-sortable-hoc';
 import { ListItem } from '@chakra-ui/core';
+import { Track } from '../../../types';
 
 type TrackItemProps = {
   track: Track;

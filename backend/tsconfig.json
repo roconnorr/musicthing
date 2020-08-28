@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "typeRoots": ["node_modules/@types", "../common/types"],
+    "typeRoots": ["node_modules/@types"],
     "rootDir": ".",
     "module": "commonjs",
     "esModuleInterop": true,

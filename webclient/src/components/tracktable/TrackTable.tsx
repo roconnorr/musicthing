@@ -12,6 +12,7 @@ import {
 } from '../../store/playlist/playlist';
 import { setPlayingTrack } from '../../store/nowPlaying/nowPlaying';
 import { RootState } from '../../store/createStore';
+import { Track } from '../../types';
 
 type VirtualListProps = {
   tracks: Track[];

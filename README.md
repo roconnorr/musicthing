@@ -1,5 +1,9 @@
 A frontend and backend for a self hosted streaming music server built with TypeScript, React, NodeJS and SQLite.
 
+# Setup
+
+Create a folder called `testmusic` in the root directory, or pass a custom directory for the server to scan with the `--dir` option.
+
 # Development environment
 
 ## Development with docker

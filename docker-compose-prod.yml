@@ -17,7 +17,7 @@ services:
       context: ./backend/.
       dockerfile: prod.dockerfile
     volumes:
-      - "./testmusic:/var/lib/musicthingstorage/music"
+      - "./testmusic:/testmusic"
     ports:
       - "3005:3005"
     environment:

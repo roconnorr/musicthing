@@ -1,8 +1,8 @@
 version: "3.7"
 
 services:
-  frontend-dev:
-    container_name: musicthing-frontend-dev
+  webclient-dev:
+    container_name: musicthing-webclient-dev
     build:
       context: ./webclient/.
       dockerfile: dev.dockerfile
@@ -21,7 +21,7 @@ services:
       context: ./backend/.
       dockerfile: dev.dockerfile
     volumes:
-      - "./testmusic:/var/lib/musicthingstorage/music"
+      - "./testmusic:/testmusic"
       - "./backend:/app"
       - "/app/node_modules"
     ports:
